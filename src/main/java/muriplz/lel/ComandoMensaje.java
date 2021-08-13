@@ -1,5 +1,6 @@
 package muriplz.lel;
 
+import io.github.thatsmusic99.configurationmaster.CMFile;
 import muriplz.lel.comandos.Mensaje;
 import muriplz.lel.tabs.MensajeTab;
 import org.bukkit.Bukkit;
@@ -17,6 +18,8 @@ public class ComandoMensaje extends JavaPlugin {
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
 
+    private static ComandoMensaje instance;
+
     // TODO: Hacer el comando /responder, todavía está en modo comentario (desactivado)
   //  public HashMap<String,String> infoResponder;
 
@@ -24,6 +27,10 @@ public class ComandoMensaje extends JavaPlugin {
 
         // TODO: Hacer el comando /responder, todavía está en modo comentario (desactivado)
      //   infoResponder = new HashMap<>();
+
+        loadConfig();
+
+        instance = this;
 
         registrarComandos();
 
@@ -39,6 +46,28 @@ public class ComandoMensaje extends JavaPlugin {
     public void registrarComandos() {
         Objects.requireNonNull(getCommand("mensaje")).setExecutor(new Mensaje(this));
         Objects.requireNonNull(getCommand("mensaje")).setTabCompleter(new MensajeTab());
+    }
+
+    public static ComandoMensaje getInstance() {
+        // Then return it.
+        return instance;
+    }
+
+    void loadConfig (){
+        CMFile myConfigFile = new CMFile(this, "config") {
+            @Override
+            public void loadDefaults() {
+                addComment("¿Quieres sonido cuando recives un mensaje? Elegir:(si o sí / no)");
+
+                addDefault("sonido-recibir-mensaje", "no");
+
+                addComment("Web para ver las opciones: https://www.spigotmc.org/wiki/cc-sounds-list/");
+
+                addDefault("elige-el-sonido","BLOCK_ANVIL_FALL");
+            }
+
+        };
+        myConfigFile.load();
     }
 
 
