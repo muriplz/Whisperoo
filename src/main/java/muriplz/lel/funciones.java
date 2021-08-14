@@ -9,9 +9,8 @@ public class funciones {
         return ChatColor.translateAlternateColorCodes('&',mensaje);
     }
 
-    public static boolean isTrue(String path){
-        String hasSound = ComandoMensaje.getInstance().getConfig().getString(path);
-        assert hasSound != null;
-        return hasSound.equals("si") || hasSound.equals("sí");
+    public static String getMessage(String path){
+
+        return funciones.color(ComandoMensaje.getMessages().getString(path));
     }
 }

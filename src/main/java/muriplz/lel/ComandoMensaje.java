@@ -2,7 +2,9 @@ package muriplz.lel;
 
 import io.github.thatsmusic99.configurationmaster.CMFile;
 import muriplz.lel.comandos.Mensaje;
+import muriplz.lel.comandos.Responder;
 import muriplz.lel.tabs.MensajeTab;
+import muriplz.lel.tabs.ResponderTab;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,6 +12,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Objects;
 
 // Esta es la "class" principal (Main class), el programa troncal.
@@ -23,13 +26,11 @@ public class ComandoMensaje extends JavaPlugin {
 
     private static ComandoMensaje instance;
 
-    // TODO: Hacer el comando /responder, todavía está en modo comentario (desactivado)
-  //  public HashMap<String,String> infoResponder;
+    public HashMap<String,String> infoResponder;
 
     public void onEnable(){
 
-        // TODO: Hacer el comando /responder, todavía está en modo comentario (desactivado)
-     //   infoResponder = new HashMap<>();
+        infoResponder = new HashMap<>();
 
         loadConfig();
 
@@ -51,6 +52,8 @@ public class ComandoMensaje extends JavaPlugin {
     public void registrarComandos() {
         Objects.requireNonNull(getCommand("mensaje")).setExecutor(new Mensaje(this));
         Objects.requireNonNull(getCommand("mensaje")).setTabCompleter(new MensajeTab());
+        Objects.requireNonNull(getCommand("responder")).setExecutor(new Responder());
+        Objects.requireNonNull(getCommand("responder")).setTabCompleter(new ResponderTab());
     }
 
     public static ComandoMensaje getInstance() {
@@ -62,20 +65,20 @@ public class ComandoMensaje extends JavaPlugin {
         CMFile myConfigFile = new CMFile(this, "config") {
             @Override
             public void loadDefaults() {
-                addComment("¿Quieres sonido cuando recives un mensaje? Elegir:(si o sí / no)");
+                addComment("¿Quieres sonido cuando recives un mensaje? Elegir:(true / false)");
 
-                addDefault("sonido-recibir-mensaje", "no");
+                addDefault("sonido-recibir-mensaje", false);
 
                 addComment("Web para ver las opciones: https://www.spigotmc.org/wiki/cc-sounds-list/");
 
                 addDefault("elige-el-sonido","BLOCK_ANVIL_FALL");
 
-                addComment("¿Quieres que los mensajes enviados acaben en punto? \".\" Eligir: (si o sí/no)");
+                addComment("¿Quieres que los mensajes enviados entre jugadores acaben en punto? \".\" Eligir: (true / false)");
 
-                addDefault("punto-mensaje","sí");
+                addDefault("punto-mensaje",false);
 
-                addComment("¿Quieres que se pueda mandar un mensaje a ti mismo? Elegir: (si o sí / no)");
-                addDefault("mensaje-ti-mismo","no");
+                addComment("¿Quieres que se pueda mandar un mensaje a ti mismo? Elegir: (true / false)");
+                addDefault("mensaje-ti-mismo",false);
             }
 
         };
@@ -99,10 +102,13 @@ public class ComandoMensaje extends JavaPlugin {
                 addDefault("jugador-no-encontrado","&cNo se han encontrado jugadores.");
 
                 addComment("Cuando el jugador usa únicamente \"/mensaje <Jugador>\".");
-                addDefault("no-mensaje-emisor","Tienes que escribir un mensaje.");
+                addDefault("escribir-mensaje","Tienes que escribir un mensaje.");
 
                 addComment("Cuando intentas mandarte un mensaje a ti mismo.");
                 addDefault("no-mensaje-mismo","No te puedes mandar mensajes a ti mismo.");
+
+                addComment("Cuando el jugador usa /responder y no tiene a quien responder.");
+                addDefault("nadie-para-responder","No tienes a nadie a quien responder.");
             }
         };
         myMessagesFile.load();
