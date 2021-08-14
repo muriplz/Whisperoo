@@ -22,8 +22,7 @@ public class ComandoMensaje extends JavaPlugin {
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
-
-
+    
     private static ComandoMensaje instance;
 
     public HashMap<String,String> infoResponder;
@@ -57,7 +56,6 @@ public class ComandoMensaje extends JavaPlugin {
     }
 
     public static ComandoMensaje getInstance() {
-        // Then return it.
         return instance;
     }
 
@@ -66,19 +64,22 @@ public class ComandoMensaje extends JavaPlugin {
             @Override
             public void loadDefaults() {
                 addComment("¿Quieres sonido cuando recives un mensaje? Elegir:(true / false)");
-
-                addDefault("sonido-recibir-mensaje", false);
+                addDefault("sound-enabled", false);
 
                 addComment("Web para ver las opciones: https://www.spigotmc.org/wiki/cc-sounds-list/");
-
-                addDefault("elige-el-sonido","BLOCK_ANVIL_FALL");
+                addDefault("choose-sound","BLOCK_ANVIL_FALL");
 
                 addComment("¿Quieres que los mensajes enviados entre jugadores acaben en punto? \".\" Eligir: (true / false)");
-
-                addDefault("punto-mensaje",false);
+                addDefault("dot-end-whisper",false);
 
                 addComment("¿Quieres que se pueda mandar un mensaje a ti mismo? Elegir: (true / false)");
-                addDefault("mensaje-ti-mismo",false);
+                addDefault("msg-yourself",false);
+
+                addComment("¿Quieres que la información se borre al /responder? (una vez uses /responder, te tendrán\nque volver a susurrar para poder volver a responder) Elegir: (true / false)");
+                addDefault("delete-respond-info",false);
+
+                addComment("Esta opcion te permite ver tu propio mensaje cuando susurras a alguien. Elegir: (true / false)");
+                addDefault("see-your-own-msg",true);
             }
 
         };
@@ -96,19 +97,28 @@ public class ComandoMensaje extends JavaPlugin {
             public void loadDefaults() {
                 addComment("\"& + Notación hexadecimal\" para usar colores.");
                 addComment("Cuando el jugador usa únicamente \"/mensaje\".");
-                addDefault("mensaje-sin-jugador","Usa /mensaje <Jugador> \"mensaje\" para mandar un mensaje.");
+                addDefault("msg-usage","Usa /mensaje <Jugador> \"mensaje\" para mandar un mensaje.");
 
                 addComment("Cuando el jugador no existe o no está conectado.");
-                addDefault("jugador-no-encontrado","&cNo se han encontrado jugadores.");
+                addDefault("player-not-found","&cNo se han encontrado jugadores.");
 
                 addComment("Cuando el jugador usa únicamente \"/mensaje <Jugador>\".");
-                addDefault("escribir-mensaje","Tienes que escribir un mensaje.");
+                addDefault("no-message-written","Tienes que escribir un mensaje.");
 
                 addComment("Cuando intentas mandarte un mensaje a ti mismo.");
-                addDefault("no-mensaje-mismo","No te puedes mandar mensajes a ti mismo.");
+                addDefault("cant-msg-yoursef","No te puedes mandar mensajes a ti mismo.");
 
                 addComment("Cuando el jugador usa /responder y no tiene a quien responder.");
-                addDefault("nadie-para-responder","No tienes a nadie a quien responder.");
+                addDefault("none-to-respond","No tienes a nadie a quien responder.");
+
+                addComment("Esta es la primera parte del mensaje que ves cuando susurras a alguien.");
+                addDefault("you-whispered-to","Le has susurrado a:");
+
+                addComment("Esta es la primera parte del mensaje que ves cuando alguien te susurra.");
+                addDefault("someone-whispered-you"," te susurra:");
+
+                addComment("Esto sale cuando no tienes permiso para ejecutar dicho comando.");
+                addDefault("no-permission","&cNo tienes permiso para ejecutar este comando.");
             }
         };
         myMessagesFile.load();

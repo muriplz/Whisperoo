@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.UUID;
 
 public class Responder implements CommandExecutor {
@@ -23,13 +22,20 @@ public class Responder implements CommandExecutor {
         }else{
 
             Player player = (Player) sender;
-            if(args.length==0){
-                player.sendMessage(funciones.getMessage("escribir-mensaje"));
+
+            if(!player.hasPermission("mensaje.responder")){
+                player.sendMessage(funciones.getMessage("no-permission"));
                 return false;
             }
+
+            if(args.length==0){
+                player.sendMessage(funciones.getMessage("no-message-written"));
+                return false;
+            }
+
             HashMap<String,String> infoRes = ComandoMensaje.getInstance().infoResponder;
             if(!infoRes.containsKey(player.getUniqueId().toString())){
-                player.sendMessage(funciones.getMessage("nadie-para-responder"));
+                player.sendMessage(funciones.getMessage("none-to-respond"));
                 return false;
             }
 
@@ -37,39 +43,42 @@ public class Responder implements CommandExecutor {
 
             UUID uuid = UUID.fromString(jugadorParaResponder);
 
-
             Player player2 = Bukkit.getPlayer(uuid);
 
             if(player2 == null){
-                player.sendMessage(funciones.getMessage("jugador-no-encontrado"));
+                player.sendMessage(funciones.getMessage("player-not-found"));
                 return false;
             }
             String message = "";
             for(int i = 0 ; i <= args.length-1 ; i++){
                 message = message.concat(" "+args[i]);
             }
-            String paraMandar = funciones.color("&7Le has susurrado a "+player2.getName()+":"+message);
-            if(ComandoMensaje.getInstance().getConfig().getBoolean("punto-mensaje")){
-                paraMandar = paraMandar.concat(".");
+
+            if(ComandoMensaje.getInstance().getConfig().getBoolean("see-your-own-msg")){
+                String paraMandar = funciones.color("&7"+funciones.getMessage("you-whispered-to")+player2.getName()+":"+message);
+                if(ComandoMensaje.getInstance().getConfig().getBoolean("dot-end-whisper")){
+                    paraMandar = paraMandar.concat(".");
+                }
+                // Mensaje para el que ejecuta el comando /mensaje <Jugador> "mensaje enviado"
+                player.sendMessage(paraMandar);
             }
-            String paraRecivir = funciones.color("&7"+player.getName()+" te susurra:"+message);
-            if(ComandoMensaje.getInstance().getConfig().getBoolean("punto-mensaje")){
+
+            String paraRecivir = funciones.color("&7"+player.getName()+funciones.getMessage("someone-whispered-you")+message);
+            if(ComandoMensaje.getInstance().getConfig().getBoolean("dot-end-whisper")){
                 paraRecivir = paraRecivir.concat(".");
             }
-            // Mensaje para el que ejecuta el comando /mensaje <Jugador> "mensaje enviado"
-            player.sendMessage(paraMandar);
 
             // Mensaje para el jugador dentro de args[0]; es decir, el receptor del mensaje
             player2.sendMessage(paraRecivir);
 
-            if(ComandoMensaje.getInstance().getConfig().getBoolean("sonido-recivir-mensaje")){
-                String soundS = ComandoMensaje.getInstance().getConfig().getString("elige-el-sonido");
+            if(ComandoMensaje.getInstance().getConfig().getBoolean("sound-enabled")){
+                String soundS = ComandoMensaje.getInstance().getConfig().getString("choose-sound");
                 Sound sound = Sound.valueOf(soundS);
                 player2.playSound(player.getLocation(),sound,1f,1f);
             }
-
-           // infoRes.remove(player.getUniqueId().toString(),player2.getUniqueId().toString());
-
+            if(ComandoMensaje.getInstance().getConfig().getBoolean("delete-respond-info")){
+                infoRes.remove(player.getUniqueId().toString(),player2.getUniqueId().toString());
+            }
 
 
         }
