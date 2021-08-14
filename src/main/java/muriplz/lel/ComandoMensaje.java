@@ -5,9 +5,11 @@ import muriplz.lel.comandos.Mensaje;
 import muriplz.lel.tabs.MensajeTab;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Objects;
 
 // Esta es la "class" principal (Main class), el programa troncal.
@@ -17,6 +19,7 @@ public class ComandoMensaje extends JavaPlugin {
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
+
 
     private static ComandoMensaje instance;
 
@@ -30,11 +33,13 @@ public class ComandoMensaje extends JavaPlugin {
 
         loadConfig();
 
+        loadMessages();
+
         instance = this;
 
         registrarComandos();
 
-        Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" El plugin ha sido activado. Versión: "+ChatColor.GREEN+version);
+        Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" El plugin ha sido activado. Version: "+ChatColor.GREEN+version);
     }
 
     // Cuando se apaga el servidor (O el plugin se apaga)
@@ -64,10 +69,40 @@ public class ComandoMensaje extends JavaPlugin {
                 addComment("Web para ver las opciones: https://www.spigotmc.org/wiki/cc-sounds-list/");
 
                 addDefault("elige-el-sonido","BLOCK_ANVIL_FALL");
+
+                addComment("¿Quieres que los mensajes enviados acaben en punto? \".\" Eligir: (si o sí/no)");
+
+                addDefault("punto-mensaje","sí");
             }
 
         };
         myConfigFile.load();
+    }
+
+    public static YamlConfiguration getMessages(){
+        File messages = new File(getInstance().getDataFolder(), "messages.yml");
+        return YamlConfiguration.loadConfiguration(messages);
+    }
+
+    void loadMessages (){
+        CMFile myMessagesFile = new CMFile(this,"messages") {
+            @Override
+            public void loadDefaults() {
+                addComment("\"& + Notación hexadecimal\" para usar colores.");
+                addComment("Cuando el jugador usa únicamente \"/mensaje\".");
+                addDefault("mensaje-sin-jugador","Usa /mensaje <Jugador> \"mensaje\" para mandar un mensaje.");
+
+                addComment("Cuando el jugador no existe o no está conectado.");
+                addDefault("jugador-no-encontrado","&cNo se han encontrado jugadores.");
+
+                addComment("Cuando el jugador usa únicamente \"/mensaje <Jugador>\".");
+                addDefault("no-mensaje-emisor","Tienes que escribir un mensaje.");
+
+                addComment("Cuando intentas mandarte un mensaje a ti mismo.");
+                addDefault("no-mensaje-mismo","No te puedes mandar mensajes a ti mismo.");
+            }
+        };
+        myMessagesFile.load();
     }
 
 

@@ -1,6 +1,6 @@
 name: ComandoMensaje
 main: muriplz.lel.ComandoMensaje
-version: 2.0
+version: 2.1
 api-version: 1.17
 author: muriplz
 commands:

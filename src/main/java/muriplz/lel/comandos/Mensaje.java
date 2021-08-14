@@ -18,6 +18,9 @@ public class Mensaje implements CommandExecutor {
         this.plugin = plugin;
     }
 
+    public String getMessage(String path){
+        return funciones.color(ComandoMensaje.getMessages().getString(path));
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -29,25 +32,29 @@ public class Mensaje implements CommandExecutor {
             // Inicializamos el objeto "Player" del emisor del mensaje
             Player player = (Player) sender;
 
+            // Cuando usa únicamente /mensaje, lo cual no debería de hacer nada, así que se manda un mensaje con información de como usar el comando (args.length sería igual a 0 en este caso)
+            if(args.length==0){
+                player.sendMessage(getMessage("mensaje-sin-jugador"));
+                return false;
+            }
+
+            Player player2 = Bukkit.getPlayer(args[0]);
+
+            // Si el receptor del mensaje no es un jugador o no está conectado, el comando deja de ejecutarse
+            if(player2==null){
+                player.sendMessage(getMessage("jugador-no-encontrado"));
+                return false;
+            }
             // Si el emisor solo ha ejecutado /mensaje <Player/Cualquier cosa>, pero no un mensaje, el comando deja de ejecutarse
-            if(args.length==1){
-                player.sendMessage("Tienes que escribir un mensaje.");
+            else if(args.length==1){
+                player.sendMessage(getMessage("no-mensaje-emisor"));
 
             // Si el emisor ha ejecutado el comando con algún mensaje entra dentro de este "else if"
-            }else if(args.length>1){
-
-                // Inicializamos el objeto "Player" del receptor del mensaje
-                Player player2 = Bukkit.getPlayer(args[0]);
-
-                // Si el receptor del mensaje no es un jugador o no está conectado, el comando deja de ejecutarse
-                if(player2==null){
-                    player.sendMessage(funciones.color("&cNo se han encontrado jugadores."));
-                    return false;
-                }
+            }else {
 
                 // Cuando el jugador se intenta mandar cualquier mensaje a sí mismo, el comando deja de ejecutarse
                 if(player==player2){
-                    player.sendMessage("No te puedes mandar mensajes a ti mismo.");
+                    player.sendMessage(getMessage("no-mensaje-mismo"));
                     return false;
                 }
 
@@ -57,12 +64,21 @@ public class Mensaje implements CommandExecutor {
                     mensaje = mensaje.concat(args[i]);
                 }
 
+                String paraMandar = funciones.color("&7Le has susurrado a "+player2.getName()+":"+mensaje);
+                if(funciones.isTrue("punto-mensaje")){
+                    paraMandar = paraMandar.concat(".");
+                }
+                String paraRecivir = funciones.color("&7"+player.getName()+" te susurra:"+mensaje);
+                if(funciones.isTrue("punto-mensaje")){
+                    paraRecivir = paraRecivir.concat(".");
+                }
                 // Mensaje para el que ejecuta el comando /mensaje <Jugador> "mensaje enviado"
-                player.sendMessage(funciones.color("&7Le has susurrado a "+player2.getName()+":"+mensaje));
+                player.sendMessage(paraMandar);
 
                 // Mensaje para el jugador dentro de args[0]; es decir, el receptor del mensaje
-                player2.sendMessage(funciones.color("&7"+player.getName()+" te susurra:"+mensaje));
-                if(funciones.tieneSonidoAlRecibirMensaje()){
+                player2.sendMessage(paraRecivir);
+
+                if(funciones.isTrue("sonido-recivir-mensaje")){
                     String soundS = ComandoMensaje.getInstance().getConfig().getString("elige-el-sonido");
                     Sound sound = Sound.valueOf(soundS);
                     player2.playSound(player.getLocation(),sound,1f,1f);
@@ -78,9 +94,6 @@ public class Mensaje implements CommandExecutor {
        //             plugin.infoResponder.put(player2.getUniqueId().toString(),player.getUniqueId().toString());
        //         }
 
-            // Cuando usa únicamente /mensaje, lo cual no debería de hacer nada, así que se manda un mensaje con información de como usar el comando (args.length sería igual a 0 en este caso)
-            }else{
-                player.sendMessage("Usa /mensaje <Jugador>");
             }
         }
 
