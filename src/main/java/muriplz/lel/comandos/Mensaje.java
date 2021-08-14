@@ -53,7 +53,7 @@ public class Mensaje implements CommandExecutor {
             }else {
 
                 // Cuando el jugador se intenta mandar cualquier mensaje a sí mismo, el comando deja de ejecutarse
-                if(player==player2){
+                if(player==player2&&!funciones.isTrue(getMessage("mensaje-ti-mismo"))){
                     player.sendMessage(getMessage("no-mensaje-mismo"));
                     return false;
                 }

@@ -73,6 +73,9 @@ public class ComandoMensaje extends JavaPlugin {
                 addComment("¿Quieres que los mensajes enviados acaben en punto? \".\" Eligir: (si o sí/no)");
 
                 addDefault("punto-mensaje","sí");
+
+                addComment("¿Quieres que se pueda mandar un mensaje a ti mismo? Elegir: (si o sí / no)");
+                addDefault("mensaje-ti-mismo","no");
             }
 
         };
