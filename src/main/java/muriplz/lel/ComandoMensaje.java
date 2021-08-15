@@ -22,21 +22,28 @@ public class ComandoMensaje extends JavaPlugin {
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
-    
+
+    // Para tener una instancia de la clase principal donde sea
     private static ComandoMensaje instance;
 
+    // Aquí se guarda la información necesaria para que /responder funcione
     public HashMap<String,String> infoResponder;
 
     public void onEnable(){
 
+        // Inicializamos un nuevo hashmap para la información del /responder
         infoResponder = new HashMap<>();
 
+        // Para la config.yml
         loadConfig();
 
+        // Para la messages.yml
         loadMessages();
 
+        // Inicializo la instancia
         instance = this;
 
+        // Para registrar los comandos y los Tab Completers
         registrarComandos();
 
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" El plugin ha sido activado. Version: "+ChatColor.GREEN+version);
@@ -55,6 +62,7 @@ public class ComandoMensaje extends JavaPlugin {
         Objects.requireNonNull(getCommand("responder")).setTabCompleter(new ResponderTab());
     }
 
+    // Para acceder a la instancia desde cualquier sitio
     public static ComandoMensaje getInstance() {
         return instance;
     }
@@ -86,6 +94,7 @@ public class ComandoMensaje extends JavaPlugin {
         myConfigFile.load();
     }
 
+    // Para poder acceder a la messages.yml desde cualquier clase
     public static YamlConfiguration getMessages(){
         File messages = new File(getInstance().getDataFolder(), "messages.yml");
         return YamlConfiguration.loadConfiguration(messages);

@@ -69,37 +69,8 @@ public class Mensaje implements CommandExecutor {
                     mensaje = mensaje.concat(" "+args[i]);
                 }
 
-                if(ComandoMensaje.getInstance().getConfig().getBoolean("see-your-own-msg")){
-                    String paraMandar = funciones.color("&7"+funciones.getMessage("you-whispered-to")+player2.getName()+":"+mensaje);
-                    if(ComandoMensaje.getInstance().getConfig().getBoolean("dot-end-whisper")){
-                        paraMandar = paraMandar.concat(".");
-                    }
-                    // Mensaje para el que ejecuta el comando /mensaje <Jugador> "mensaje enviado"
-                    player.sendMessage(paraMandar);
-                }
-                String paraRecivir = funciones.color("&7"+player.getName()+"te susurra:"+mensaje);
-                if(ComandoMensaje.getInstance().getConfig().getBoolean("dot-end-whisper")){
-                    paraRecivir = paraRecivir.concat(".");
-                }
-
-
-                // Mensaje para el jugador dentro de args[0]; es decir, el receptor del mensaje
-                player2.sendMessage(paraRecivir);
-
-                if(ComandoMensaje.getInstance().getConfig().getBoolean("sound-enabled")){
-                    String soundS = ComandoMensaje.getInstance().getConfig().getString("choose-sound");
-                    Sound sound = Sound.valueOf(soundS);
-                    player2.playSound(player.getLocation(),sound,1f,1f);
-                }
-
-                // Guardo la información para el comando /responder (Hecha de manera eficiente para que cada receptor tenga únicamente un "Player" al que responder, no varios)
-                if(plugin.infoResponder.containsKey(player2.getUniqueId().toString())){
-                    if(!plugin.infoResponder.containsValue(player.getUniqueId().toString())){
-                        plugin.infoResponder.replace(player2.getUniqueId().toString(),plugin.infoResponder.get(player2.getUniqueId().toString()),player.getUniqueId().toString());
-                    }
-                }else{
-                    plugin.infoResponder.put(player2.getUniqueId().toString(),player.getUniqueId().toString());
-                }
+                // Se mandan los respectivos mensajes
+                funciones.susurrar(player,player2,mensaje);
 
             }
         }
