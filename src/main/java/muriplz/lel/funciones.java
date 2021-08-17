@@ -19,14 +19,14 @@ public class funciones {
 
     public static void susurrar(Player emisor,Player receptor,String mensaje){
         if(ComandoMensaje.getInstance().getConfig().getBoolean("see-your-own-msg")){
-            String paraMandar = funciones.color("&7"+funciones.getMessage("you-whispered-to")+receptor.getName()+":"+mensaje);
+            String paraMandar = funciones.getMessage("you-whispered-to").replace("%PLAYER_NAME%",receptor.getName().replace("%SUSURRO%",mensaje));
             if(ComandoMensaje.getInstance().getConfig().getBoolean("dot-end-whisper")){
                 paraMandar = paraMandar.concat(".");
             }
             // Mensaje para el que ejecuta el comando /mensaje <Jugador> "mensaje enviado"
             emisor.sendMessage(paraMandar);
         }
-        String paraRecivir = funciones.color("&7"+emisor.getName()+"te susurra:"+mensaje);
+        String paraRecivir = funciones.getMessage("someone-whispered-you").replace("%PLAYER_NAME%",emisor.getName()).replace("%SUSURRO%",mensaje);
         if(ComandoMensaje.getInstance().getConfig().getBoolean("dot-end-whisper")){
             paraRecivir = paraRecivir.concat(".");
         }

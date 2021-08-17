@@ -1,6 +1,6 @@
 name: ComandosDeComunicacion
 main: muriplz.lel.ComandoMensaje
-version: 2.3
+version: 2.4
 api-version: 1.17
 author: muriplz
 description: La forma típica para comunicarse
