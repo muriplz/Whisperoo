@@ -1,9 +1,9 @@
 name: ComandosDeComunicacion
 main: muriplz.lel.ComandoMensaje
-version: 2.4
+version: 2.5
+load: POSTWORLD
 api-version: 1.17
 author: muriplz
-description: La forma típica para comunicarse
 commands:
   mensaje:
     description: manda un mensaje a un jugador.

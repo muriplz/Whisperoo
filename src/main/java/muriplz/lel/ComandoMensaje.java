@@ -106,6 +106,7 @@ public class ComandoMensaje extends JavaPlugin {
         CMFile myMessagesFile = new CMFile(this,"messages") {
             @Override
             public void loadDefaults() {
+                addLink("GitHub","https://github.com/muriplz/ComandoMensaje");
 
                 addComment("\"& + Notación hexadecimal\" para usar colores.");
                 addComment("Cuando el jugador usa únicamente \"/mensaje\".");
@@ -124,10 +125,10 @@ public class ComandoMensaje extends JavaPlugin {
                 addDefault("none-to-respond","No tienes a nadie a quien responder.");
 
                 addComment("Esta es la primera parte del mensaje que ves cuando susurras a alguien.");
-                addDefault("you-whispered-to","&7Le has susurrado a %PLAYER_NAME%: %SUSURRO%");
+                addDefault("you-whispered-to","&7Le has susurrado a %PLAYER_NAME%: %WHISPER%");
 
                 addComment("Esta es la primera parte del mensaje que ves cuando alguien te susurra.");
-                addDefault("someone-whispered-you","&7%PLAYER_NAME% te susurra: %SUSURRO%");
+                addDefault("someone-whispered-you","&7%PLAYER_NAME% te susurra: %WHISPER%");
 
                 addComment("Esto sale cuando no tienes permiso para ejecutar dicho comando.");
                 addDefault("no-permission","&cNo tienes permiso para ejecutar este comando.");
