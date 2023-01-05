@@ -20,5 +20,5 @@ jobs:
     - name: Export the builded project as an artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ComandosDeComunicacion-Dev
+        name: Whisperoo-Dev
         path: build/libs/

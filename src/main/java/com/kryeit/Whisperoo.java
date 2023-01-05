@@ -1,10 +1,8 @@
-package muriplz.lel;
+package com.kryeit;
 
 import io.github.thatsmusic99.configurationmaster.CMFile;
-import muriplz.lel.comandos.Mensaje;
-import muriplz.lel.comandos.Responder;
-import muriplz.lel.tabs.MensajeTab;
-import muriplz.lel.tabs.ResponderTab;
+import com.kryeit.tabs.Message;
+import com.kryeit.tabs.Reply;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -16,7 +14,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 // Esta es la "class" principal (Main class), el programa troncal.
-public class ComandoMensaje extends JavaPlugin {
+public class Whisperoo extends JavaPlugin {
 
     // Acceso a "plugin.yml" para obtener datos como el nombre del plugin o la versión
     PluginDescriptionFile pdffile = getDescription();
@@ -24,7 +22,7 @@ public class ComandoMensaje extends JavaPlugin {
     public String version = pdffile.getVersion();
 
     // Para tener una instancia de la clase principal donde sea
-    private static ComandoMensaje instance;
+    private static Whisperoo instance;
 
     // Aquí se guarda la información necesaria para que /responder funcione
     public HashMap<String,String> infoResponder;
@@ -56,14 +54,14 @@ public class ComandoMensaje extends JavaPlugin {
 
     // Inicializo los comandos al cargar el plugin cuando se enciende el servidor
     public void registrarComandos() {
-        Objects.requireNonNull(getCommand("m")).setExecutor(new Mensaje(this));
-        Objects.requireNonNull(getCommand("m")).setTabCompleter(new MensajeTab());
-        Objects.requireNonNull(getCommand("r")).setExecutor(new Responder());
-        Objects.requireNonNull(getCommand("r")).setTabCompleter(new ResponderTab());
+        Objects.requireNonNull(getCommand("m")).setExecutor(new com.kryeit.commands.Message(this));
+        Objects.requireNonNull(getCommand("m")).setTabCompleter(new Message());
+        Objects.requireNonNull(getCommand("r")).setExecutor(new com.kryeit.commands.Reply());
+        Objects.requireNonNull(getCommand("r")).setTabCompleter(new Reply());
     }
 
     // Para acceder a la instancia desde cualquier sitio
-    public static ComandoMensaje getInstance() {
+    public static Whisperoo getInstance() {
         return instance;
     }
 

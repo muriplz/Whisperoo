@@ -1,20 +1,19 @@
-package muriplz.lel.comandos;
+package com.kryeit.commands;
 
-import muriplz.lel.ComandoMensaje;
-import muriplz.lel.funciones;
+import com.kryeit.Whisperoo;
+import com.kryeit.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class Mensaje implements CommandExecutor {
+public class Message implements CommandExecutor {
 
-    private final ComandoMensaje plugin;
+    private final Whisperoo plugin;
 
-    public Mensaje(ComandoMensaje plugin) {
+    public Message(Whisperoo plugin) {
         this.plugin = plugin;
     }
 
@@ -31,13 +30,13 @@ public class Mensaje implements CommandExecutor {
             Player player = (Player) sender;
 
             if(!player.hasPermission("mensaje.mensaje")){
-                player.sendMessage(funciones.getMessage("no-permission"));
+                player.sendMessage(Utils.getMessage("no-permission"));
                 return false;
             }
 
             // Cuando usa únicamente /mensaje, lo cual no debería de hacer nada, así que se manda un mensaje con información de como usar el comando (args.length sería igual a 0 en este caso)
             if(args.length==0){
-                player.sendMessage(funciones.getMessage("msg-usage"));
+                player.sendMessage(Utils.getMessage("msg-usage"));
                 return false;
             }
 
@@ -45,21 +44,21 @@ public class Mensaje implements CommandExecutor {
 
             // Si el receptor del mensaje no es un jugador o no está conectado, el comando deja de ejecutarse
             if(player2==null){
-                player.sendMessage(funciones.getMessage("player-not-found"));
+                player.sendMessage(Utils.getMessage("player-not-found"));
                 return false;
             }
             // Si el emisor solo ha ejecutado /mensaje <Player/Cualquier cosa>, pero no un mensaje, el comando deja de ejecutarse
             else if(args.length==1){
-                player.sendMessage(funciones.getMessage("no-message-written"));
+                player.sendMessage(Utils.getMessage("no-message-written"));
 
             // Si el emisor ha ejecutado el comando con algún mensaje entra dentro de este "else if"
             }else {
 
-                boolean autoMensajes= ComandoMensaje.getInstance().getConfig().getBoolean("msg-yourself");
+                boolean autoMensajes= Whisperoo.getInstance().getConfig().getBoolean("msg-yourself");
 
                 // Cuando el jugador se intenta mandar cualquier mensaje a sí mismo, el comando deja de ejecutarse
                 if(player==player2&&!autoMensajes){
-                    player.sendMessage(funciones.getMessage("cant-msg-yoursef"));
+                    player.sendMessage(Utils.getMessage("cant-msg-yoursef"));
                     return false;
                 }
 
@@ -70,7 +69,7 @@ public class Mensaje implements CommandExecutor {
                 }
 
                 // Se mandan los respectivos mensajes
-                funciones.susurrar(player,player2,mensaje);
+                Utils.susurrar(player,player2,mensaje);
 
             }
         }
