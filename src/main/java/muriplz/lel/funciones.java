@@ -19,7 +19,7 @@ public class funciones {
 
     public static void susurrar(Player emisor,Player receptor,String mensaje){
         if(ComandoMensaje.getInstance().getConfig().getBoolean("see-your-own-msg")){
-            String paraMandar = funciones.getMessage("you-whispered-to").replace("%PLAYER_NAME%",receptor.getName().replace("%WHISPER%",mensaje));
+            String paraMandar = funciones.getMessage("you-whispered-to").replace("%PLAYER_NAME%",receptor.getName()).replace("%WHISPER%",mensaje);
             if(ComandoMensaje.getInstance().getConfig().getBoolean("dot-end-whisper")){
                 paraMandar = paraMandar.concat(".");
             }
@@ -41,12 +41,6 @@ public class funciones {
         }
 
         // Guardo la información para el comando /responder (Hecha de manera eficiente para que cada receptor tenga únicamente un "Player" al que responder, no varios)
-        if(ComandoMensaje.getInstance().infoResponder.containsKey(receptor.getUniqueId().toString())){
-            if(!ComandoMensaje.getInstance().infoResponder.containsValue(emisor.getUniqueId().toString())){
-                ComandoMensaje.getInstance().infoResponder.replace(receptor.getUniqueId().toString(),ComandoMensaje.getInstance().infoResponder.get(receptor.getUniqueId().toString()),emisor.getUniqueId().toString());
-            }
-        }else{
-            ComandoMensaje.getInstance().infoResponder.put(receptor.getUniqueId().toString(),emisor.getUniqueId().toString());
-        }
+        ComandoMensaje.getInstance().infoResponder.put(receptor.getUniqueId().toString(), emisor.getUniqueId().toString());
     }
  }

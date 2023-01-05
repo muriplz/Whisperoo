@@ -56,10 +56,10 @@ public class ComandoMensaje extends JavaPlugin {
 
     // Inicializo los comandos al cargar el plugin cuando se enciende el servidor
     public void registrarComandos() {
-        Objects.requireNonNull(getCommand("mensaje")).setExecutor(new Mensaje(this));
-        Objects.requireNonNull(getCommand("mensaje")).setTabCompleter(new MensajeTab());
-        Objects.requireNonNull(getCommand("responder")).setExecutor(new Responder());
-        Objects.requireNonNull(getCommand("responder")).setTabCompleter(new ResponderTab());
+        Objects.requireNonNull(getCommand("m")).setExecutor(new Mensaje(this));
+        Objects.requireNonNull(getCommand("m")).setTabCompleter(new MensajeTab());
+        Objects.requireNonNull(getCommand("r")).setExecutor(new Responder());
+        Objects.requireNonNull(getCommand("r")).setTabCompleter(new ResponderTab());
     }
 
     // Para acceder a la instancia desde cualquier sitio
@@ -83,7 +83,7 @@ public class ComandoMensaje extends JavaPlugin {
                 addDefault("dot-end-whisper",false);
 
                 addComment("¿Quieres que se pueda mandar un mensaje a ti mismo? Elegir: (true / false)");
-                addDefault("msg-yourself",false);
+                addDefault("msg-yourself",true);
 
                 addComment("¿Quieres que la información se borre al /responder? (una vez uses /responder, te tendrán\nque volver a susurrar para poder volver a responder) Elegir: (true / false)");
                 addDefault("delete-respond-info",false);
@@ -110,28 +110,28 @@ public class ComandoMensaje extends JavaPlugin {
 
                 addComment("\"& + Notación hexadecimal\" para usar colores.");
                 addComment("Cuando el jugador usa únicamente \"/mensaje\".");
-                addDefault("msg-usage","Usa /mensaje <Jugador> \"mensaje\" para mandar un mensaje.");
+                addDefault("msg-usage","Use /msg <player> <message> to send a message.");
 
                 addComment("Cuando el jugador no existe o no está conectado.");
-                addDefault("player-not-found","&cNo se han encontrado jugadores.");
+                addDefault("player-not-found","&cPlayer not found.");
 
                 addComment("Cuando el jugador usa únicamente \"/mensaje <Jugador>\".");
-                addDefault("no-message-written","Tienes que escribir un mensaje.");
+                addDefault("no-message-written","&cThere is no message to send.");
 
                 addComment("Cuando intentas mandarte un mensaje a ti mismo.");
                 addDefault("cant-msg-yoursef","No te puedes mandar mensajes a ti mismo.");
 
                 addComment("Cuando el jugador usa /responder y no tiene a quien responder.");
-                addDefault("none-to-respond","No tienes a nadie a quien responder.");
+                addDefault("none-to-respond","&cYou don't have anyone to reply.");
 
                 addComment("Esta es la primera parte del mensaje que ves cuando susurras a alguien.");
-                addDefault("you-whispered-to","&7Le has susurrado a %PLAYER_NAME%: %WHISPER%");
+                addDefault("you-whispered-to","&dYou whisper to %PLAYER_NAME%:%WHISPER%");
 
                 addComment("Esta es la primera parte del mensaje que ves cuando alguien te susurra.");
-                addDefault("someone-whispered-you","&7%PLAYER_NAME% te susurra: %WHISPER%");
+                addDefault("someone-whispered-you","&d%PLAYER_NAME% whispers to you:%WHISPER%");
 
                 addComment("Esto sale cuando no tienes permiso para ejecutar dicho comando.");
-                addDefault("no-permission","&cNo tienes permiso para ejecutar este comando.");
+                addDefault("no-permission","&cYou don't have permission to execute this command.");
             }
         };
         myMessagesFile.load();

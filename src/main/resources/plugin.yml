@@ -5,11 +5,9 @@ load: POSTWORLD
 api-version: 1.17
 author: muriplz
 commands:
-  mensaje:
+  m:
     description: manda un mensaje a un jugador.
-    aliases: m
-    permission: mensaje.mensaje
-  responder:
+    aliases: message
+  r:
     description: manda un mensaje al último jugador que te susurró.
-    aliases: r
-    permission: mensaje.responder
+    aliases: reply
