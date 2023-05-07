@@ -1,8 +1,11 @@
 package com.kryeit;
 
+import net.lapismc.afkplus.playerdata.AFKPlusPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+
+import static com.kryeit.Whisperoo.afkPlusPlayerAPI;
 
 public class Utils {
 
@@ -31,6 +34,10 @@ public class Utils {
             paraRecivir = paraRecivir.concat(".");
         }
 
+        AFKPlusPlayer player;
+        player = afkPlusPlayerAPI.getPlayer(receptor.getUniqueId());
+
+        if(player.isAFK()) receptor.playSound(receptor.getLocation(),Sound.ENTITY_EXPERIENCE_ORB_PICKUP,1f,1f);
         // Mensaje para el jugador dentro de args[0]; es decir, el receptor del mensaje
         receptor.sendMessage(paraRecivir);
 

@@ -4,6 +4,7 @@ version: 1.0
 load: POSTWORLD
 api-version: 1.18
 author: muriplz
+softdepend: [AFKPlus]
 commands:
   m:
     permission: whiperoo.message

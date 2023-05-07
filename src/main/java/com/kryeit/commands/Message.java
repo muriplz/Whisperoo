@@ -17,8 +17,6 @@ public class Message implements CommandExecutor {
         this.plugin = plugin;
     }
 
-
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player)) {

@@ -3,6 +3,7 @@ package com.kryeit;
 import io.github.thatsmusic99.configurationmaster.CMFile;
 import com.kryeit.tabs.Message;
 import com.kryeit.tabs.Reply;
+import net.lapismc.afkplus.api.AFKPlusPlayerAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,6 +16,8 @@ import java.util.Objects;
 
 // Esta es la "class" principal (Main class), el programa troncal.
 public class Whisperoo extends JavaPlugin {
+
+    public static AFKPlusPlayerAPI afkPlusPlayerAPI = new AFKPlusPlayerAPI();
 
     // Acceso a "plugin.yml" para obtener datos como el nombre del plugin o la versión
     PluginDescriptionFile pdffile = getDescription();
